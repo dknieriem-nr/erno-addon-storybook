@@ -44,7 +44,9 @@ const Grid: React.FC<ColumnsProps> = ({
       columns={columns}
       active={active}
     >
-     
+     { bgColor?.toString() }
+     { columns }
+     { active?.toString() }
     </Columns>
   );
 };
@@ -56,8 +58,7 @@ type StyledProps = Omit<ColumnsProps, "breakpoints"> & {
 };
 
 /** @todo make non-column background color dynamic */
-const Columns = styled.aside<StyledProps>`
-  display: ${({ active }) => (active ? "flex" : "none")};
+const Columns = styled.div<StyledProps>`
   position: absolute;
   inset: 0;
   margin: 0 auto;

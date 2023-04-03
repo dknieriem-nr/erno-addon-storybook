@@ -3,6 +3,7 @@ import { useAddonState, useParameter } from "@storybook/api";
 import React, { useCallback, useEffect } from "react";
 import { ADDON_ID, PARAM_KEY } from "../constants";
 import { ColumnsProps } from "../types";
+import { OptionsControl } from "@storybook/components";
 import {
   ColorControls,
   ColumnHeaders,
@@ -21,7 +22,7 @@ export const PanelContent: React.FC = () => {
   const [isLoaded, setIsLoaded] = useAddonState(`${ADDON_ID}_isLoaded`);
  
   const [active, setActive] = useAddonState(`${ADDON_ID}_active`);
-  const [bgColor, setBgColor] = useAddonState(`${ADDON_ID}bgColor`);
+  const [bgColor, setBgColor] = useAddonState(`${ADDON_ID}_bgColor`);
   const [columns, setColumns] = useAddonState(`${ADDON_ID}_columns`);
 
   const toggleColumns = useCallback(() => {
@@ -49,6 +50,18 @@ export const PanelContent: React.FC = () => {
       getParameters().then((data) => setIsLoaded(true));
     }
   }, [parameters]);
+  
+  const options = [
+    "nr-black",
+    "nr-white",
+    "nr-green"
+  ];
+
+  const labels = { 
+    "nr-black": "NR Black", 
+    "nr-white": "NR White", 
+    "nr-green": "NR Green",
+  };
 
   return (
     <>
@@ -62,9 +75,14 @@ export const PanelContent: React.FC = () => {
               />
             </FlexAlignCenter>
             <FlexAlignCenter style={{ flex: 1, justifyContent: "flex-end" }}>
-              <Input
-                defaultValue={bgColor}
+              <OptionsControl
+                name="bgColor"
                 onChange={(bgColor) => updateBgColor(bgColor)}
+                labels={labels}
+                type="select"
+                options={options}
+                value={bgColor}
+                defaultValue={bgColor}
               />
             </FlexAlignCenter>
             <FlexAlignCenter style={{ justifyContent: "flex-end" }}>

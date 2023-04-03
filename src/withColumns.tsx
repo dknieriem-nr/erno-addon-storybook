@@ -16,15 +16,12 @@ export const withColumns: DecoratorFunction = (StoryFn, context) => {
   }, [columns]);
 
   return (
-    <>
+    <GridOverlay
+      active={active as boolean}
+      bgColor={bgColor as ColumnsProps["bgColor"]}
+      columns={columns as ColumnsProps["columns"]}
+    >
       {StoryFn()}
-      {isLoaded && (
-        <GridOverlay
-          active={active as boolean}
-          bgColor={bgColor as ColumnsProps["bgColor"]}
-          columns={columns as ColumnsProps["columns"]}
-        />
-      )}
-    </>
+    </GridOverlay>
   );
 };
