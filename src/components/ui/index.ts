@@ -1,4 +1,3 @@
-import ColorControls from "./ColorControls";
 import ColumnHeaders from "./ColumnHeaders";
 import ColumnsToggle from "./ColumnsToggle";
 import Container from "./Container";
@@ -8,7 +7,6 @@ import Label from "./Label";
 import ColumnControls from "./ColumnControls";
 
 export {
-  ColorControls,
   ColumnHeaders,
   ColumnsToggle,
   Container,

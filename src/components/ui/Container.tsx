@@ -7,6 +7,7 @@ type ContainerProps = {
   padding?: CSSProperties["padding"];
   margin?: CSSProperties["margin"];
   alignItems?: CSSProperties["alignItems"];
+  children?: any;
 };
 
 const Container: React.FC<ContainerProps> = ({

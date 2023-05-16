@@ -5,11 +5,8 @@ import { ADDON_ID, PARAM_KEY } from "../constants";
 import { ColumnsProps } from "../types";
 import { OptionsControl } from "@storybook/components";
 import {
-  ColorControls,
-  ColumnHeaders,
   ColumnsToggle,
   Container,
-  Input,
   ColumnControls,
 } from "./ui";
 
@@ -17,7 +14,7 @@ import {
  * our controls panel (the bread & butter)
  * @todo display viewport width
  * */
-export const PanelContent: React.FC = () => {
+export const PanelContent: React.FC = (props: any) => {
   const parameters: ColumnsProps = useParameter(PARAM_KEY);
   const [isLoaded, setIsLoaded] = useAddonState(`${ADDON_ID}_isLoaded`);
  
@@ -30,12 +27,12 @@ export const PanelContent: React.FC = () => {
   }, [active]);
 
   const updateBgColor = useCallback(
-    (bgColor) => setBgColor(bgColor),
+    (bgColor: unknown) => setBgColor(bgColor),
     [bgColor]
   );
 
   const updateColumns = useCallback(
-    (columns) => setColumns(columns),
+    (columns: unknown) => setColumns(columns),
     [columns]
   );
 

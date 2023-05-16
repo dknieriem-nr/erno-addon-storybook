@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React from "react";
 import { DecoratorFunction, useEffect } from "@storybook/addons";
-import { useAddonState, useGlobals } from "@storybook/client-api";
+import { useAddonState, useGlobals, useState } from "@storybook/client-api";
 import { GridOverlay } from "./components/ui";
 import { ADDON_ID } from "./constants";
 import { ColumnsProps } from "./types";
+import { styled } from "@storybook/theming";
 // import { useGlobals } from '@storybook/api';
 
 export const withColumns: DecoratorFunction = (StoryFn, context) => {
@@ -13,17 +14,27 @@ export const withColumns: DecoratorFunction = (StoryFn, context) => {
   const [columns] = useAddonState(`${ADDON_ID}_columns`);
   const [{ drupalTheme }] = useGlobals();
   console.log(drupalTheme);
+  console.log(React.version);
   useEffect(() => {
     if (columns) setIsLoaded(true);
   }, [columns]);
-
+  const Wrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  width: 100vw;
+  `;
   return (
-    <GridOverlay
-      active={active as boolean}
-      bgColor={bgColor as ColumnsProps["bgColor"]}
-      columns={columns as ColumnsProps["columns"]}
-    >
+    <Wrapper>
+      { drupalTheme }
+      <GridOverlay
+        active={active as boolean}
+        bgColor={bgColor as ColumnsProps["bgColor"]}
+        columns={columns as ColumnsProps["columns"]}
+      >
+      </GridOverlay>
       {StoryFn()}
-    </GridOverlay>
+    </Wrapper>
   );
 };
