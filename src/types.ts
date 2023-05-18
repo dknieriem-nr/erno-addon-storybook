@@ -1,7 +1,9 @@
 
 export type ColumnsProps = {
-  active: boolean;
-  bgColor?: string;
-  columns?: number;
+  responsiveColumns_active: boolean;
+  responsiveColumns_bgColor?: string;
+  responsiveColumns_columns?: string;
+  responsiveColumns_bgType?: string;
+  responsiveColumns_fullBleed?: boolean;
   children?: any;
 };

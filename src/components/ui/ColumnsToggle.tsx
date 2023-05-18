@@ -5,12 +5,13 @@ import { Container, Label } from "./";
 
 type ToggleProps = {
   isActive: boolean;
+  label: string;
   onChange?: () => void;
 };
 
-const ColumnsToggle: React.FC<ToggleProps> = ({ isActive, onChange }) => (
+const ColumnsToggle: React.FC<ToggleProps> = ({ isActive, onChange, label }) => (
   <Container display="flex" alignItems="center" gap="16px">
-    <Label>Toggle Section Wrapper:</Label>
+    <Label>{label}:</Label>
     <BooleanControlContainer>
       <BooleanControl
         name="Toggle Columns"

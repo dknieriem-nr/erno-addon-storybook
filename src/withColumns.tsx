@@ -1,7 +1,6 @@
 import React from "react";
 import { DecoratorFunction, useEffect } from "@storybook/addons";
 import { useAddonState, useGlobals, useState } from "@storybook/client-api";
-import { GridOverlay } from "./components/ui";
 import { ADDON_ID } from "./constants";
 import { ColumnsProps } from "./types";
 import { styled } from "@storybook/theming";
@@ -28,12 +27,6 @@ export const withColumns: DecoratorFunction = (StoryFn, context) => {
   return (
     <Wrapper>
       { drupalTheme }
-      <GridOverlay
-        active={active as boolean}
-        bgColor={bgColor as ColumnsProps["bgColor"]}
-        columns={columns as ColumnsProps["columns"]}
-      >
-      </GridOverlay>
       {StoryFn()}
     </Wrapper>
   );

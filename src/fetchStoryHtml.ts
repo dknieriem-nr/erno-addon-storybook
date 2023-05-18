@@ -1,5 +1,10 @@
 type StorybookContext = {
   globals: {
+    responsiveColumns_active?: boolean;
+    responsiveColumns_bgType?: string;
+    responsiveColumns_bgColor?: string;
+    responsiveColumns_columns?: string;
+    responsiveColumns_fullBleed?: boolean;
     drupalTheme?: string;
   };
   args: Record<string, unknown>,
@@ -19,31 +24,52 @@ type StorybookContext = {
 import { ADDON_ID } from "./constants";
 import { useGlobals } from "@storybook/api";
 
-function createNewBody(htmlDoc: Document, wrapperDoc: Document): HTMLElement {
-  const wrapperWrapper = wrapperDoc.getElementsByClassName('r01-layout').item(0);
+function createNewBody(htmlDoc: Document, wrapperDoc: Document, context: StorybookContext): HTMLElement {
+  
+  const wrapperWrapper = wrapperDoc.getElementById('___cl-wrapper'); //.getElementsByClassName('r01-layout').item(0);
   const clWrapper = htmlDoc.getElementById('___cl-wrapper');
   // Extract the missing scripts and re-add them.
   const scripts = htmlDoc.getElementsByTagName('script');
   const wrapperScripts = htmlDoc.getElementsByTagName('script');
-  const allScripts = Array.from(scripts).concat(Array.from(wrapperScripts));
+  if(context.globals.responsiveColumns_active && context.globals.responsiveColumns_active === true){
+    const allScripts = Array.from(scripts).concat(Array.from(wrapperScripts));
 
-  const newBody = wrapperDoc.createElement('body');
-  // Copy the body attributes from the old body to the new, in case there is
-  // anything functionally relevant.
-  wrapperDoc.body.getAttributeNames().forEach((attrName) => {
-    newBody.setAttribute(attrName, wrapperDoc.body.getAttribute(attrName));
-  });
-  const wrapperColumns = Array.from(wrapperWrapper.getElementsByClassName('row').item(0).children); //wrapperDoc.getElementsByClassName('row')
-  wrapperColumns.forEach( (column) => {
-    column.innerHTML = clWrapper.innerHTML;
-  })
-  newBody.innerHTML = wrapperWrapper.innerHTML;
-  // Include the Drupal "js footer" assets, i.e., all the <script> tags in
-  // the <body>.
-  const footerScripts = htmlDoc.createElement('div');
-  footerScripts.append(...allScripts); //footerScripts.append(...Array.from(scripts));
-  newBody.append(footerScripts);
-  return newBody;
+    const newBody = wrapperDoc.createElement('body');
+    // Copy the body attributes from the old body to the new, in case there is
+    // anything functionally relevant.
+    wrapperDoc.body.getAttributeNames().forEach((attrName) => {
+      newBody.setAttribute(attrName, wrapperDoc.body.getAttribute(attrName));
+    });
+    const wrapperColumns = Array.from(wrapperWrapper.getElementsByClassName('row').item(0).children); //wrapperDoc.getElementsByClassName('row')
+    wrapperColumns.forEach( (column) => {
+      column.innerHTML = clWrapper.innerHTML;
+    })
+    newBody.innerHTML = wrapperWrapper.innerHTML;
+    // Include the Drupal "js footer" assets, i.e., all the <script> tags in
+    // the <body>.
+    const footerScripts = htmlDoc.createElement('div');
+    footerScripts.append(...allScripts); //footerScripts.append(...Array.from(scripts));
+    newBody.append(footerScripts);
+    return newBody;
+  } else {
+    const allScripts = Array.from(scripts);
+
+    const newBody = htmlDoc.createElement('body');
+    // Copy the body attributes from the old body to the new, in case there is
+    // anything functionally relevant.
+    htmlDoc.body.getAttributeNames().forEach((attrName) => {
+      newBody.setAttribute(attrName, htmlDoc.body.getAttribute(attrName));
+    });
+    
+    newBody.innerHTML = clWrapper.innerHTML;
+    // Include the Drupal "js footer" assets, i.e., all the <script> tags in
+    // the <body>.
+    const footerScripts = htmlDoc.createElement('div');
+    footerScripts.append(...allScripts); //footerScripts.append(...Array.from(scripts));
+    newBody.append(footerScripts);
+    return newBody;
+  }
+  
 }
 
 function extractClContent(htmlDoc: Document): HTMLElement {
@@ -67,16 +93,17 @@ function extractClContent(htmlDoc: Document): HTMLElement {
 
 const loadColumnWrapper = async (url: string, context: StorybookContext) => {
   const fetchUrl = new URL(`${url}/_cl_server`);
+  // , responsiveColumns_bgColor, responsiveColumns_columns, responsiveColumns_bgType, responsiveColumns_fullBleed } , updateGlobals] = useGlobals();
   const args = {
-    "background_type":"",
-    "background_color":"",
+    "background_type": context.globals.responsiveColumns_bgType ?? "",
+    "background_color":  context.globals.responsiveColumns_bgColor ?? "",
     "background_image":"",
     "margin_bottom":96,
     "text_color":"",
     "text_alignment":"left",
     "column_align":"stretch",
-    "widths":"6-6",
-    "full_bleed":false,
+    "widths": context.globals.responsiveColumns_columns ?? "12",
+    "full_bleed": context.globals.responsiveColumns_fullBleed ?? false,
   };
   console.log("Load Wrapper context:", context);
   const init: {
@@ -117,7 +144,7 @@ const loadColumnWrapper = async (url: string, context: StorybookContext) => {
     const parser = new DOMParser();
     const htmlDoc = parser.parseFromString(htmlContents, 'text/html');
     // Swap the old body for the new.
-    htmlDoc.body = extractClContent(htmlDoc);
+    // htmlDoc.body = extractClContent(htmlDoc);
     return htmlDoc.children[0].outerHTML;
   } catch (e) {
     console.error(e);
@@ -135,20 +162,7 @@ const fetchStoryHtml = async (
   url = url.replace(/\/$/, '');
 
   const variant = context.parameters?.options?.variant;
-  // console.log(context);
-  // const loadWrapper = context.parameters?.columns?.active;
-  // const [globals, updateGlobals] = useGlobals();
-  // const active = globals[`${ADDON_ID}_active`];
-  // const bgColor = globals[`${ADDON_ID}_bgColor`];
-  // const columns = globals[`${ADDON_ID}_columns`];
-  // const [active] = useAddonState(`${ADDON_ID}_active`);
-  // const [bgColor] = useAddonState(`${ADDON_ID}_bgColor`);
-  // const [columns] = useAddonState(`${ADDON_ID}_columns`);
 
-  // if(active){
-  //     console.log(active, bgColor, columns);
-  //     const wrapperContents = loadColumnWrapper(url, context);
-  // }
   const fetchUrl = new URL(`${url}/_cl_server`);
   const init: {
     _storyFileName: string;
@@ -194,7 +208,7 @@ const fetchStoryHtml = async (
     const wrapperDoc = parser.parseFromString(wrapperContents, 'text/html');
     // console.log("wrapper doc:", wrapperDoc);
     // Swap the old body for the new.
-    htmlDoc.body = createNewBody(htmlDoc, wrapperDoc);
+    htmlDoc.body = createNewBody(htmlDoc, wrapperDoc, context);
     return htmlDoc.children[0].outerHTML;
   } catch (e) {
     console.error(e);
