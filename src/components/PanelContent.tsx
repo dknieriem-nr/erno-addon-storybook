@@ -1,5 +1,5 @@
 import { styled } from "@storybook/theming";
-import { useAddonState, useParameter, useGlobals, useStorybookApi } from "@storybook/api";
+import { useGlobals, useStorybookApi } from "@storybook/api";
 
 import React, { useCallback, useEffect } from "react";
 import { ADDON_ID, PARAM_KEY } from "../constants";
@@ -84,7 +84,7 @@ export const PanelContent: React.FC = (props: any) => {
 
     useEffect(() => {
       api.setAddonShortcut(ADDON_ID, {
-        label: 'Toggle Columns [C]',
+        label: 'Toggle Section Wrapper [C]',
         defaultShortcut: ['C'],
         actionName: 'columns',
         showInMenu: false,

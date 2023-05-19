@@ -5,7 +5,7 @@ import { Panel } from "../Panel";
 addons.register(ADDON_ID, () => {
   addons.add(PANEL_ID, {
     type: types.PANEL,
-    title: "Columns",
+    title: "R01 Section Wrapper",
     match: ({ viewMode }) => viewMode === "story",
     render: Panel,
   });
