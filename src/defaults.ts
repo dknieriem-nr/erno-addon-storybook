@@ -5,5 +5,6 @@ export const defaults: ColumnsProps = {
   responsiveColumns_bgColor: '',
   responsiveColumns_columns: '12',
   responsiveColumns_bgType: 'color',
-  responsiveColumns_fullBleed: false
+  responsiveColumns_fullBleed: false,
+  responsiveColumns_textColor: ''
 };

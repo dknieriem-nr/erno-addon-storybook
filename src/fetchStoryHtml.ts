@@ -3,6 +3,7 @@ type StorybookContext = {
     responsiveColumns_active?: boolean;
     responsiveColumns_bgType?: string;
     responsiveColumns_bgColor?: string;
+    responsiveColumns_textColor?: string;
     responsiveColumns_columns?: string;
     responsiveColumns_fullBleed?: boolean;
     drupalTheme?: string;
@@ -99,7 +100,7 @@ const loadColumnWrapper = async (url: string, context: StorybookContext) => {
     "background_color":  context.globals.responsiveColumns_bgColor ?? "",
     "background_image":"",
     "margin_bottom":96,
-    "text_color":"",
+    "text_color": context.globals.responsiveColumns_textColor ?? "",
     "text_alignment":"left",
     "column_align":"stretch",
     "widths": context.globals.responsiveColumns_columns ?? "12",

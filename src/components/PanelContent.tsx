@@ -8,6 +8,7 @@ import { OptionsControl } from "@storybook/components";
 import {
   ColumnsToggle,
   Container,
+  Label,
 } from "./ui";
 
 /**
@@ -15,33 +16,33 @@ import {
  * @todo display viewport width
  * */
 export const PanelContent: React.FC = (props: any) => {
-  const [{ responsiveColumns_active, responsiveColumns_bgColor, responsiveColumns_columns, responsiveColumns_bgType, responsiveColumns_fullBleed } , updateGlobals] = useGlobals();
+  const [{ responsiveColumns_active, responsiveColumns_bgColor, responsiveColumns_columns, responsiveColumns_bgType, responsiveColumns_fullBleed, responsiveColumns_textColor } , updateGlobals] = useGlobals();
   const api = useStorybookApi();
   if( responsiveColumns_active === undefined ){
     updateGlobals({ 
       responsiveColumns_active: defaults.responsiveColumns_active, 
     });
   }
-  if( responsiveColumns_columns === undefined ){
-    updateGlobals({ 
-      responsiveColumns_columns: defaults.responsiveColumns_columns, 
-    });
-  }
-  if( responsiveColumns_bgColor === undefined ){
-    updateGlobals({ 
-      responsiveColumns_bgColor: defaults.responsiveColumns_bgColor, 
-    });
-  }
-  if( responsiveColumns_bgType === undefined ){
-    updateGlobals({ 
-      responsiveColumns_bgType: defaults.responsiveColumns_bgType, 
-    });
-  }
-  if( responsiveColumns_fullBleed === undefined ){
-    updateGlobals({ 
-      responsiveColumns_fullBleed: defaults.responsiveColumns_fullBleed, 
-    });
-  }
+  // if( responsiveColumns_columns === undefined ){
+  //   updateGlobals({ 
+  //     responsiveColumns_columns: defaults.responsiveColumns_columns, 
+  //   });
+  // }
+  // if( responsiveColumns_bgColor === undefined ){
+  //   updateGlobals({ 
+  //     responsiveColumns_bgColor: defaults.responsiveColumns_bgColor, 
+  //   });
+  // }
+  // if( responsiveColumns_bgType === undefined ){
+  //   updateGlobals({ 
+  //     responsiveColumns_bgType: defaults.responsiveColumns_bgType, 
+  //   });
+  // }
+  // if( responsiveColumns_fullBleed === undefined ){
+  //   updateGlobals({ 
+  //     responsiveColumns_fullBleed: defaults.responsiveColumns_fullBleed, 
+  //   });
+  // }
   const toggleColumns = useCallback(
     () =>
       updateGlobals({ 
@@ -66,12 +67,20 @@ export const PanelContent: React.FC = (props: any) => {
       [updateGlobals, responsiveColumns_bgColor]
     );
 
-    const updateBgType = useCallback(
-      (bgType: any) =>
+  const updateBgType = useCallback(
+    (bgType: any) =>
+      updateGlobals({ 
+        responsiveColumns_bgType: bgType, 
+      }),
+      [updateGlobals, responsiveColumns_bgType]
+    );
+
+    const updateTextColor = useCallback(
+      (textColor: any) =>
         updateGlobals({ 
-          responsiveColumns_bgType: bgType, 
+          responsiveColumns_textColor: textColor, 
         }),
-        [updateGlobals, responsiveColumns_bgType]
+        [updateGlobals, responsiveColumns_textColor]
       );
 
     const updateColumns = useCallback(
@@ -179,17 +188,42 @@ export const PanelContent: React.FC = (props: any) => {
     '4-4-4': '4-4-4',
     '3-3-3-3': '3-3-3-3',
   };
+
+  const textOptions = [
+    '',
+    'black',
+    'white',
+  ];
+
+  const textLabels = {
+    '': '',
+    'black': 'black',
+    'white': 'white',
+  };
+
   return (
       <Container padding="32px">
         <Row>
           <FlexAlignCenter style={{ flex: 1, marginRight: "auto" }}>
+          <Label>Toggle Section Wrapper:</Label>
             <ColumnsToggle
-              label="Toggle Section Wrapper"
               onChange={toggleColumns}
               isActive={responsiveColumns_active as boolean}
             />
           </FlexAlignCenter>
           <FlexAlignCenter style={{ flex: 1, justifyContent: "flex-end" }}>
+          <Label>Background Color:</Label><OptionsControl
+              name="bgColor"
+              onChange={(responsiveColumns_bgType) => updateBgType(responsiveColumns_bgType)}
+              labels={bgTypeLabels}
+              type="select"
+              options={bgTypeOptions}
+              value={responsiveColumns_bgType}
+              defaultValue={responsiveColumns_bgType}
+            />
+          </FlexAlignCenter>
+          <FlexAlignCenter style={{ flex: 1, justifyContent: "flex-end" }}>
+          <Label>Background Type:</Label>
             <OptionsControl
               name="bgType"
               onChange={(responsiveColumns_bgColor) => updateBgColor(responsiveColumns_bgColor)}
@@ -201,17 +235,19 @@ export const PanelContent: React.FC = (props: any) => {
             />
           </FlexAlignCenter>
           <FlexAlignCenter style={{ flex: 1, justifyContent: "flex-end" }}>
+            <Label>Text Color:</Label>
             <OptionsControl
-              name="bgColor"
-              onChange={(responsiveColumns_bgType) => updateBgType(responsiveColumns_bgType)}
-              labels={bgTypeLabels}
+              name="textColor"
+              onChange={(responsiveColumns_textColor) => updateTextColor(responsiveColumns_textColor)}
+              labels={textLabels}
               type="select"
-              options={bgTypeOptions}
-              value={responsiveColumns_bgType}
-              defaultValue={responsiveColumns_bgType}
+              options={textOptions}
+              value={responsiveColumns_textColor}
+              defaultValue={responsiveColumns_textColor}
             />
           </FlexAlignCenter>
           <FlexAlignCenter style={{ flex: 1, justifyContent: "flex-end" }}>
+          <Label>Column Widths:</Label>
           <OptionsControl
               name="columns"
               onChange={(responsiveColumns_columns) => updateColumns(responsiveColumns_columns)}
@@ -223,8 +259,8 @@ export const PanelContent: React.FC = (props: any) => {
             />
           </FlexAlignCenter>
           <FlexAlignCenter style={{ flex: 1, marginRight: "auto" }}>
+          <Label>Toggle Full Bleed:</Label>
             <ColumnsToggle
-              label="Toggle Full Bleed"
               onChange={toggleFullBleed}
               isActive={responsiveColumns_fullBleed as boolean}
             />
@@ -244,6 +280,7 @@ const Row = styled.div`
 const FlexAlignCenter = styled.div`
   display: flex;
   align-items: center;
+  flex-direction: column;
 `;
 
 const BreakpointValue = styled.p`
