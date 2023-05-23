@@ -1,6 +1,6 @@
 {
   "name": "@newrelic/erno-addon-storybook",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Erno theme decorator wrapper for Storybook components",
   "author": "Don Knieriem <dknieriem@newrelic.com>",
   "keywords": [
@@ -13,6 +13,7 @@
     "storybook",
     "storybook-addons"
   ],
+  "private": true,
   "repository": {
     "type": "git",
     "url": "https://github.com/dknieriem-nr/erno-addon-storybook"
