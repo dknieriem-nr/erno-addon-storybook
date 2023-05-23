@@ -1,14 +1,14 @@
 function config(entry = []) {
   return [
     ...entry, 
-    require.resolve("@newrelic/erno-addon-storybook/preview")
+    require.resolve("./dist/esm/preset/preview")
   ];
 }
 
 function managerEntries(entry = []) {
   return [
     ...entry, 
-    require.resolve("@newrelic/erno-addon-storybook/manager")
+    require.resolve("./dist/esm/preset/manager")
   ];
 }
 
