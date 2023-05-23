@@ -13,7 +13,6 @@
     "storybook",
     "storybook-addons"
   ],
-  "private": true,
   "repository": {
     "type": "git",
     "url": "https://github.com/dknieriem-nr/erno-addon-storybook"
