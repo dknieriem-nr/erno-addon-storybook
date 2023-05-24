@@ -1,3 +1,7 @@
+# v0.1.4 (Wed May 24 2023)
+
+- Fix backgroundType and backgroundColor labels
+
 # v0.1.3 (Tue May 23 2023)
 
 #### ⚠️ Pushed to `main`

@@ -212,8 +212,8 @@ export const PanelContent: React.FC = (props: any) => {
             />
           </FlexAlignCenter>
           <FlexAlignCenter style={{ flex: 1, justifyContent: "flex-end" }}>
-          <Label>Background Color:</Label><OptionsControl
-              name="bgColor"
+          <Label>Background Type:</Label><OptionsControl
+              name="bgType"
               onChange={(responsiveColumns_bgType) => updateBgType(responsiveColumns_bgType)}
               labels={bgTypeLabels}
               type="select"
@@ -223,9 +223,9 @@ export const PanelContent: React.FC = (props: any) => {
             />
           </FlexAlignCenter>
           <FlexAlignCenter style={{ flex: 1, justifyContent: "flex-end" }}>
-          <Label>Background Type:</Label>
+          <Label>Background Color:</Label>
             <OptionsControl
-              name="bgType"
+              name="bgColor"
               onChange={(responsiveColumns_bgColor) => updateBgColor(responsiveColumns_bgColor)}
               labels={bgLabels}
               type="select"

@@ -159,8 +159,8 @@ export var PanelContent = function PanelContent(props) {
       flex: 1,
       justifyContent: "flex-end"
     }
-  }, /*#__PURE__*/React.createElement(Label, null, "Background Color:"), /*#__PURE__*/React.createElement(OptionsControl, {
-    name: "bgColor",
+  }, /*#__PURE__*/React.createElement(Label, null, "Background Type:"), /*#__PURE__*/React.createElement(OptionsControl, {
+    name: "bgType",
     onChange: function onChange(responsiveColumns_bgType) {
       return updateBgType(responsiveColumns_bgType);
     },
@@ -174,8 +174,8 @@ export var PanelContent = function PanelContent(props) {
       flex: 1,
       justifyContent: "flex-end"
     }
-  }, /*#__PURE__*/React.createElement(Label, null, "Background Type:"), /*#__PURE__*/React.createElement(OptionsControl, {
-    name: "bgType",
+  }, /*#__PURE__*/React.createElement(Label, null, "Background Color:"), /*#__PURE__*/React.createElement(OptionsControl, {
+    name: "bgColor",
     onChange: function onChange(responsiveColumns_bgColor) {
       return updateBgColor(responsiveColumns_bgColor);
     },
